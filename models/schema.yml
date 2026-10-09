@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: silver_listings
+    description: Cleaned, typed listings; one row per listing per month.
+    columns:
+      - name: listing_id
+        data_tests: [not_null]
+      - name: month_year
+        data_tests: [not_null]
+      - name: has_availability
+        data_tests:
+          - accepted_values:
+              values: ['t', 'f']
+
+  - name: silver_lga
+    columns:
+      - name: lga_code
+        data_tests: [unique, not_null]
+
+  - name: silver_suburb
+    columns:
+      - name: suburb_name
+        data_tests: [unique, not_null]
+
+  - name: dim_census_g01
+    columns:
+      - name: lga_code
+        data_tests: [unique, not_null]
+
+  - name: dim_census_g02
+    columns:
+      - name: lga_code
+        data_tests: [unique, not_null]
+
+  - name: fact_listings
+    description: One row per listing per month; keys and measures only.
+    columns:
+      - name: listing_id
+        data_tests: [not_null]
+      - name: month_year
+        data_tests: [not_null]

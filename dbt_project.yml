@@ -1,0 +1,31 @@
+# dbt_project.yml | Assignment 3: Big Data Engineering | Dhrishita Parve
+# Medallion warehouse on Cloud SQL Postgres:
+#   bronze   - raw tables loaded by Airflow (dbt sources, not built here)
+#   silver   - cleaned, typed entities + SCD2 snapshots
+#   gold     - star schema (dimensions, census references, fact)
+#   datamart - analytical views for the business questions
+name: 'bde_assignment3'
+version: '1.0.0'
+config-version: 2
+
+profile: 'default'
+
+model-paths: ["models"]
+snapshot-paths: ["snapshots"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  bde_assignment3:
+    silver:
+      +schema: silver
+      +materialized: table
+    gold:
+      star:
+        +schema: gold
+        +materialized: table
+      datamart:
+        +schema: datamart
+        +materialized: view
